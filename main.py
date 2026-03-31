@@ -13,7 +13,7 @@ claude = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 KNOWLEDGE_BASE = """
 [Reports]
 Q: How to fix N/A in Placement report?
-A: Double check the Data Update tab. Column B contains the campaign name. Compare it to the USA tab using CTRL+F. Usually a small space or dash makes the difference. Also remove dollar symbols via CTRL+H (Find: dollar sign, Replace: empty).
+A: Double check the Data Update tab. Column B contains the campaign name. Compare it to the USA tab using CTRL+F. Usually a small space or dash makes the difference. Also remove dollar symbols via CTRL+H, Find dollar sign, Replace empty.
 
 Q: How to sort Placement reports properly?
 A: Click the 2nd row (column headers), click filter. Sort by Placement type Z to A, then Campaign Z to A, then column O Spent Yesterday Z to A.
@@ -57,17 +57,21 @@ def handle_dm(event, say, logger):
     user_message = event.get("text", "").strip()
     if not user_message:
         return
+    print(f"Question received: {user_message}")
     try:
         response = claude.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-haiku-4-5-20251001",
             max_tokens=500,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_message}]
         )
         reply = response.content[0].text
+        print(f"Reply generated: {reply}")
     except Exception as e:
+        print(f"ANTHROPIC ERROR: {str(e)}")
         reply = "Sorry, I am having trouble. Please reach out to your manager or team lead. KTG Bot"
     say(reply)
+    print("Reply sent!")
 
 print("KTG Bot is starting...")
 SocketModeHandler(app, SLACK_APP_TOKEN).start()
