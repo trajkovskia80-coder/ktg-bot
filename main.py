@@ -60,7 +60,7 @@ def handle_dm(event, say, logger):
     print(f"Question received: {user_message}")
     try:
         response = claude.messages.create(
-            model="claude-haiku-4-5-20251001",
+            model="claude-3-haiku-20240307",
             max_tokens=500,
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_message}]
