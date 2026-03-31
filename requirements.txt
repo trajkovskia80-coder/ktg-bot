@@ -1,2 +1,2 @@
-slack-bolt
-anthropic
+slack-bolt==1.18.1
+anthropic==0.25.0
